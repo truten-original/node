@@ -14,7 +14,7 @@
 // console.log(process.argv)
 
 const yargs = require('yargs')
-const { addNote, printNotes } = require('./notes.controller')
+const { addNote, printNotes, removeNote } = require('./notes.controller')
 yargs.command({
   command: 'add',
   describe: 'Add new note to List',
@@ -32,9 +32,22 @@ yargs.command({
 yargs.command({
   command: 'list',
   describe: 'print list',
-   handler() {
+  handler() {
     printNotes()
   },
 })
-
+yargs.command({
+  command: 'remove',
+  describe: 'remove some note',
+  builder: {
+    id: {
+      type: 'string',
+      describe: 'note id',
+      demandOption: true,
+    },
+  },
+  handler({ id }) {
+    removeNote(id)
+  },
+})
 yargs.parse()

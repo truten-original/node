@@ -24,11 +24,19 @@ const notes = await fs.readFile(notesPath,  {encording: 'utf-8' })
 
 async function printNotes () {
     const notes = await getNotes()
-    notes.forEach(note => console.log(chalk.blue(note.title)))
+    console.log('here is the list of notes:')
+    notes.forEach(note => console.log(chalk.blue(note.id, note.title)))
     
+}
+async function removeNote (id) {
+    const notes = await getNotes()
+    const filterNotes = notes.filter(note => note.id !== id)
+    await fs.writeFile(notesPath, JSON.stringify(filterNotes))
+    console.log(chalk.bgRedBright('note removed'))
 }
 module.exports = {
     addNote,
-    printNotes
+    printNotes,
+    removeNote
 
 }
